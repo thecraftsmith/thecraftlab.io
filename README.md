@@ -11,6 +11,12 @@ npm install
 npm run dev
 ```
 
+Install Tailwind CSS, PostCSS, Autoprefixer and the Typography plugin:
+
+```bash
+npm install -D tailwindcss postcss autoprefixer @tailwindcss/typography
+```
+
 ## Production
 
 Build the site for production:

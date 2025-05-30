@@ -1,17 +1,16 @@
-// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import './App.css';
 
 const markdownSections = {
-  whoami: import.meta.glob('./content/whoami/*.md', { as: 'raw' }),
-  courses: import.meta.glob('./content/courses/*.md', { as: 'raw' }),
-  articles: import.meta.glob('./content/articles/*.md', { as: 'raw' }),
+  whoami: import.meta.glob('./content/whoami/*.md', { query: '?raw', import: 'default' }),
+  courses: import.meta.glob('./content/courses/*.md', { query: '?raw', import: 'default' }),
+  articles: import.meta.glob('./content/articles/*.md', { query: '?raw', import: 'default' }),
 };
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('whoami');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [activeFile, setActiveFile] = useState(null);
   const [content, setContent] = useState('');
@@ -28,6 +27,7 @@ export default function App() {
       setActiveFile(loadedFiles[0] || null);
     };
     loadFiles();
+    setSidebarOpen(false);
   }, [activeSection]);
 
   useEffect(() => {
@@ -52,42 +52,55 @@ export default function App() {
   }[activeSection];
 
   return (
-    <div className="app-container">
-      <nav className="sidebar">
-        <div className="logo">{'>the<craft>lab<'}</div>
-        <ul className="nav-list">
+    <div className="flex flex-col md:flex-row h-screen font-mono bg-[#1e1e2e] text-white">
+      <header className="md:hidden flex items-center justify-between px-4 py-2 bg-[#2b2b3c] border-b border-[#3a3a4d]">
+        <div className="text-xl font-bold text-lime-300 tracking-wide">{'>'}the{'<'}craft{'>'}lab{'<'}</div>
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="text-2xl focus:outline-none"
+          aria-label="Toggle Menu"
+        >
+          {sidebarOpen ? '✕' : '☰'}
+        </button>
+      </header>
+
+      <aside className={`${sidebarOpen ? 'block' : 'hidden'} md:block bg-[#2b2b3c] border-r border-[#3a3a4d] p-6 flex flex-col gap-8 w-60 flex-shrink-0`}>
+        <div className="hidden md:block text-xl font-bold text-lime-300 tracking-wide">{'>'}the{'<'}craft{'>'}lab{'<'}</div>
+        <nav className="flex flex-col gap-3 mt-4">
           {['whoami', 'courses', 'articles'].map((section) => (
-            <li key={section}>
-              <button
-                className={`nav-btn ${activeSection === section ? 'active' : ''}`}
-                onClick={() => setActiveSection(section)}
-              >
-                {section === 'whoami' ? 'who am i' : section}
-              </button>
-            </li>
+            <button
+              key={section}
+              className={`text-left px-3 py-2 rounded ${
+                activeSection === section ? 'border border-lime-300 text-lime-300' : 'text-lime-300 hover:bg-lime-900'
+              } transition`}
+              onClick={() => setActiveSection(section)}
+            >
+              {section === 'whoami' ? 'who am i' : section}
+            </button>
           ))}
-        </ul>
-      </nav>
-      <main className="content">
-        <header className="section-title">
-          <h2>{sectionTitle}</h2>
-        </header>
-        <div className="section-container">
-          <aside className="file-list">
-            {files.map((file) => (
-              <button
-                key={file.path}
-                className={`file-btn ${
-                  activeFile && activeFile.path === file.path ? 'active' : ''
-                }`}
-                onClick={() => setActiveFile(file)}
-              >
-                {formatTitle(file.name)}
-              </button>
-            ))}
-          </aside>
-          <div className="file-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+        </nav>
+      </aside>
+
+      <main className="flex-1 overflow-y-auto p-6">
+        <div className="max-w-3xl mx-auto space-y-8">
+          <h2 className="text-3xl font-bold text-lime-300 uppercase tracking-wider animate-slideIn">{sectionTitle}</h2>
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-shrink-0 w-full md:w-48 space-y-2">
+              {files.map((file) => (
+                <button
+                  key={file.path}
+                  className={`w-full text-left px-3 py-2 rounded bg-[#44475a] ${
+                    activeFile?.path === file.path ? 'border-l-4 border-lime-300' : 'hover:bg-[#4f4f6f]'
+                  } transition`}
+                  onClick={() => setActiveFile(file)}
+                >
+                  {formatTitle(file.name)}
+                </button>
+              ))}
+            </div>
+            <div className="prose prose-invert prose-headings:text-lime-300 flex-1 bg-[#2b2b3c] p-6 rounded-lg shadow-lg animate-fadeIn">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+            </div>
           </div>
         </div>
       </main>
