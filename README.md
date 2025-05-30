@@ -32,7 +32,7 @@ npm run start
 
 ### Deploying on Render.com
 
-To have Render.com automatically build and publish your site from the `dist/` folder, commit a `render.yaml` at the root of your repo:
+To have Render.com automatically build and publish your site from the `dist/` folder, commit a `.render.yaml` at the root of your repo:
 
 ```yaml
 services:
