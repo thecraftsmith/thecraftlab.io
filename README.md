@@ -24,7 +24,6 @@ Build the site for production:
 ```bash
 npm run build
 ```
-```
 Serve the built `dist/` directory (e.g. for local testing or platforms expecting a `start` command):
 
 ```bash
