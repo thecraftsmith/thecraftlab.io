@@ -1,4 +1,4 @@
-# About Me
+const e=`# About Me
 
 <a href="https://www.linkedin.com/in/andr%C3%A9-maciel-65822424/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-[#6272a4] border-2 border-[#bd93f9] rounded hover:bg-[#6e7fa4]">
   <svg class="w-5 h-5 text-[#50fa7b] fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -11,4 +11,4 @@ André Maciel is a seasoned tech leader and software developer with over 17 year
 
 André’s expertise spans a wide range of technologies, including Hadoop, Docker, Airflow, and Snowflake, with a strong focus on Python and JavaScript frameworks. He excels in data visualization, using tools like Power BI, Tableau, and JavaScript libraries such as React, Svelte, and D3.js to create interactive, dynamic dashboards that drive business insights. His work consistently delivers high-impact solutions that enhance decision-making, optimize supply chains, and improve profitability for global enterprises.
 
-Passionate about continuous learning and knowledge sharing, André regularly coaches teams and individuals on leveraging data and technology to make better, smarter decisions. Whether it’s through mentoring, workshops, or hands-on collaboration, he is dedicated to empowering others to harness the power of data and create meaningful change in their organizations.
+Passionate about continuous learning and knowledge sharing, André regularly coaches teams and individuals on leveraging data and technology to make better, smarter decisions. Whether it’s through mentoring, workshops, or hands-on collaboration, he is dedicated to empowering others to harness the power of data and create meaningful change in their organizations.`;export{e as default};
