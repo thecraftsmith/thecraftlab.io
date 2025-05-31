@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import matter from 'gray-matter';
 
 const markdownSections = {
@@ -151,7 +152,13 @@ export default function App() {
                   </details>
                 </>
               )}
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+                allowDangerousHtml
+              >
+                {content}
+              </ReactMarkdown>
             </div>
           </div>
         </div>
