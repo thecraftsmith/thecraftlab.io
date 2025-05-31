@@ -69,7 +69,7 @@ export default function App() {
         </button>
       </header>
 
-      <aside className={`${sidebarOpen ? 'block' : 'hidden'} md:block bg-[#2b2b3c] border-r border-[#3a3a4d] p-6 flex flex-col gap-8 w-60 flex-shrink-0`}>
+<aside className={`${sidebarOpen ? 'block' : 'hidden'} md:block bg-[#2b2b3c] border-r border-[#3a3a4d] p-4 md:p-6 flex flex-col gap-8 w-48 md:w-60 flex-shrink-0`}>
         <div className="hidden md:block text-xl font-bold text-lime-300 tracking-wide">{'>'}the{'<'}craft{'>'}lab{'<'}</div>
         <nav className="flex flex-col gap-3 mt-4">
           {['whoami', 'courses', 'articles'].map((section) => (
@@ -86,9 +86,9 @@ export default function App() {
         </nav>
       </aside>
 
-      <main className="flex-1 overflow-y-auto p-6">
+      <main className="flex-1 overflow-y-auto p-4 md:p-6">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="text-3xl font-bold text-lime-300 uppercase tracking-wider animate-slideIn">{sectionTitle}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-lime-300 uppercase tracking-wider animate-slideIn">{sectionTitle}</h2>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-shrink-0 w-full md:w-48 space-y-2">
               {files.map((file) => (
@@ -103,28 +103,53 @@ export default function App() {
                 </button>
               ))}
             </div>
-            <div className="prose prose-invert prose-headings:text-lime-300 flex-1 bg-[#2b2b3c] p-6 rounded-lg shadow-lg animate-fadeIn">
+            <div className="prose prose-invert prose-headings:text-lime-300 flex-1 bg-[#2b2b3c] p-4 md:p-6 rounded-lg shadow-lg animate-fadeIn">
               {frontmatter && (
-                <div className="metadata space-y-1 mb-4 text-sm">
-                  {frontmatter.created && <div><strong>Created:</strong> {frontmatter.created}</div>}
-                  {frontmatter.updated && <div><strong>Last updated:</strong> {frontmatter.updated}</div>}
-                  {frontmatter.version && <div><strong>Version:</strong> {frontmatter.version}</div>}
-                  {frontmatter.author && <div><strong>Author:</strong> {frontmatter.author}</div>}
-                  {frontmatter.references && frontmatter.references.length > 0 && (
-                    <div>
-                      <strong>References:</strong>
-                      <ul className="list-disc list-inside">
-                        {frontmatter.references.map((ref, idx) => (
-                          <li key={idx}>
-                            <a href={ref} target="_blank" rel="noopener noreferrer" className="underline text-lime-300">
-                              {ref}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
+                <>
+                  <div className="hidden md:block metadata space-y-1 mb-4 text-sm text-gray-400">
+                    {frontmatter.created && <div><strong>Created:</strong> {frontmatter.created}</div>}
+                    {frontmatter.updated && <div><strong>Last updated:</strong> {frontmatter.updated}</div>}
+                    {frontmatter.version && <div><strong>Version:</strong> {frontmatter.version}</div>}
+                    {frontmatter.author && <div><strong>Author:</strong> {frontmatter.author}</div>}
+                    {frontmatter.references && frontmatter.references.length > 0 && (
+                      <div>
+                        <strong>References:</strong>
+                        <ul className="list-disc list-inside">
+                          {frontmatter.references.map((ref, idx) => (
+                            <li key={idx}>
+                              <a href={ref} target="_blank" rel="noopener noreferrer" className="underline text-lime-300">
+                                {ref}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                  <details className="md:hidden metadata mb-4 text-sm bg-[#232331] p-2 rounded">
+                    <summary className="cursor-pointer font-semibold text-lime-300">Details</summary>
+                    <div className="space-y-1 mt-2 text-gray-400">
+                      {frontmatter.created && <div><strong>Created:</strong> {frontmatter.created}</div>}
+                      {frontmatter.updated && <div><strong>Last updated:</strong> {frontmatter.updated}</div>}
+                      {frontmatter.version && <div><strong>Version:</strong> {frontmatter.version}</div>}
+                      {frontmatter.author && <div><strong>Author:</strong> {frontmatter.author}</div>}
+                      {frontmatter.references && frontmatter.references.length > 0 && (
+                        <div>
+                          <strong>References:</strong>
+                          <ul className="list-disc list-inside">
+                            {frontmatter.references.map((ref, idx) => (
+                              <li key={idx}>
+                                <a href={ref} target="_blank" rel="noopener noreferrer" className="underline text-lime-300">
+                                  {ref}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </details>
+                </>
               )}
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
