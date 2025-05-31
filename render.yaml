@@ -1,5 +1,0 @@
-services:
-  - type: static
-    name: thecraftlab-io
-    staticPublishPath: dist
-    buildCommand: npm install && npm run build

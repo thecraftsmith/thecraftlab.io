@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import matter from 'gray-matter';
 
 const markdownSections = {
   whoami: import.meta.glob('./content/whoami/*.md', { query: '?raw', import: 'default' }),
@@ -14,6 +15,7 @@ export default function App() {
   const [files, setFiles] = useState([]);
   const [activeFile, setActiveFile] = useState(null);
   const [content, setContent] = useState('');
+  const [frontmatter, setFrontmatter] = useState({});
 
   useEffect(() => {
     const loadFiles = async () => {
@@ -34,8 +36,11 @@ export default function App() {
     const loadContent = async () => {
       if (activeFile) {
         const md = await activeFile.resolver();
-        setContent(md);
+        const { data, content: mdContent } = matter(md);
+        setFrontmatter(data);
+        setContent(mdContent);
       } else {
+        setFrontmatter({});
         setContent('');
       }
     };
@@ -99,6 +104,28 @@ export default function App() {
               ))}
             </div>
             <div className="prose prose-invert prose-headings:text-lime-300 flex-1 bg-[#2b2b3c] p-6 rounded-lg shadow-lg animate-fadeIn">
+              {frontmatter && (
+                <div className="metadata space-y-1 mb-4 text-sm">
+                  {frontmatter.created && <div><strong>Created:</strong> {frontmatter.created}</div>}
+                  {frontmatter.updated && <div><strong>Last updated:</strong> {frontmatter.updated}</div>}
+                  {frontmatter.version && <div><strong>Version:</strong> {frontmatter.version}</div>}
+                  {frontmatter.author && <div><strong>Author:</strong> {frontmatter.author}</div>}
+                  {frontmatter.references && frontmatter.references.length > 0 && (
+                    <div>
+                      <strong>References:</strong>
+                      <ul className="list-disc list-inside">
+                        {frontmatter.references.map((ref, idx) => (
+                          <li key={idx}>
+                            <a href={ref} target="_blank" rel="noopener noreferrer" className="underline text-lime-300">
+                              {ref}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
           </div>
