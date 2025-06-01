@@ -5,7 +5,7 @@ import rehypeRaw from 'rehype-raw'
 
 export default function MarkdownContent({ content, frontmatter }) {
   return (
-    <div className="prose prose-invert prose-headings:text-lime-300 flex-1 bg-[#2b2b3c] p-4 md:p-6 rounded-lg shadow-lg animate-fadeIn">
+    <div className="flex-1 full-w prose prose-invert prose-headings:text-lime-300 bg-[#232334] rounded-lg shadow-lg animate-fadeIn">
       {frontmatter && (
         <>
           <div className="hidden md:block metadata space-y-1 mb-4 text-sm text-gray-400">
@@ -30,7 +30,7 @@ export default function MarkdownContent({ content, frontmatter }) {
           </div>
           <details className="md:hidden metadata mb-4 text-sm bg-[#232331] p-2 rounded">
             <summary className="cursor-pointer font-semibold text-lime-300">Details</summary>
-            <div className="space-y-1 mt-2 text-gray-400">
+            <div className="space-y-1 text-gray-400">
               {frontmatter.created && <div><strong>Created:</strong> {frontmatter.created}</div>}
               {frontmatter.updated && <div><strong>Last updated:</strong> {frontmatter.updated}</div>}
               {frontmatter.version && <div><strong>Version:</strong> {frontmatter.version}</div>}

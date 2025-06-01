@@ -25,6 +25,24 @@
   box-sizing: border-box;
 }
 
+/* Dracula Scrollbar */
+.dracula-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  background: #282a36;   /* Dracula background */
+}
+.dracula-scrollbar::-webkit-scrollbar-thumb {
+  background: #6272a4;   /* Dracula selection */
+  border-radius: 8px;
+  border: 2px solid #282a36;
+}
+.dracula-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #44475a;
+}
+.dracula-scrollbar {
+  scrollbar-color: #6272a4 #282a36; /* For Firefox */
+  scrollbar-width: thin;
+}
+
 body {
   background: var(--dracula-bg);
   color: var(--dracula-foreground);
