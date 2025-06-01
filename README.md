@@ -45,8 +45,8 @@ services:
 
 Place markdown files in `src/content/<section>/`. The following sections are supported:
 
-- `whoami`: personal bio files
+- `articles`: blog posts and personal bio files (e.g. who-am-i)
 - `courses`: course descriptions
-- `articles`: blog posts
+- `components`: component demos (e.g. data lineage)
 
 New markdown files in these folders will automatically load in the site once added.
