@@ -1,12 +1,13 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
-
-const MarkdownContent = lazy(() => import('./components/MarkdownContent'));
+import React, { useState, useEffect, lazy, Suspense } from 'react'
+const MarkdownContent = lazy(() => import('./components/MarkdownContent'))
 import { parseFrontMatter } from './utils/parseFrontMatter'
+import DataLineage from './components/DataLineage'
 
 const markdownSections = {
   whoami: import.meta.glob('./content/whoami/*.md', { query: '?raw', import: 'default' }),
   courses: import.meta.glob('./content/courses/*.md', { query: '?raw', import: 'default' }),
   articles: import.meta.glob('./content/articles/*.md', { query: '?raw', import: 'default' }),
+  lineage: {},
 };
 
 export default function App() {
@@ -54,6 +55,7 @@ export default function App() {
     whoami: 'Who Am I',
     courses: 'Courses',
     articles: 'Articles',
+    lineage: 'Data Lineage',
   }[activeSection];
 
   return (
@@ -72,7 +74,7 @@ export default function App() {
 <aside className={`${sidebarOpen ? 'block' : 'hidden'} md:block bg-[#2b2b3c] border-r border-[#3a3a4d] p-4 md:p-6 flex flex-col gap-8 w-48 md:w-60 flex-shrink-0`}>
         <div className="hidden md:block text-xl font-bold text-lime-300 tracking-wide">{'>'}the{'<'}craft{'>'}lab{'<'}</div>
         <nav className="flex flex-col gap-3 mt-4">
-          {['whoami', 'courses', 'articles'].map((section) => (
+          {['whoami', 'courses', 'articles', 'lineage'].map((section) => (
             <button
               key={section}
               className={`text-left px-3 py-2 rounded ${
@@ -80,32 +82,40 @@ export default function App() {
               } transition`}
               onClick={() => setActiveSection(section)}
             >
-              {section === 'whoami' ? 'who am i' : section}
+              {section === 'whoami'
+                ? 'who am i'
+                : section === 'lineage'
+                ? 'data lineage'
+                : section}
             </button>
           ))}
         </nav>
       </aside>
 
       <main className="flex-1 overflow-y-auto p-4 md:p-6">
-        <div className="max-w-3xl mx-auto space-y-8">
+        <div className={`space-y-8 ${activeSection === 'lineage' ? 'w-full' : 'max-w-3xl mx-auto'}`}>
           <h2 className="text-2xl md:text-3xl font-bold text-lime-300 uppercase tracking-wider animate-slideIn">{sectionTitle}</h2>
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-shrink-0 w-full md:w-48 space-y-2">
-              {files.map((file) => (
-                <button
-                  key={file.path}
-                  className={`w-full text-left px-3 py-2 rounded bg-[#44475a] ${
-                    activeFile?.path === file.path ? 'border-l-4 border-lime-300' : 'hover:bg-[#4f4f6f]'
-                  } transition`}
-                  onClick={() => setActiveFile(file)}
-                >
-                  {formatTitle(file.name)}
-                </button>
-              ))}
-            </div>
-            <Suspense fallback={<div>Loading...</div>}>
-              <MarkdownContent content={content} frontmatter={frontmatter} />
-            </Suspense>
+            {activeSection === 'lineage' ? (
+              <DataLineage />
+            ) : (
+              <>
+                <div className="flex-shrink-0 w-full md:w-48 space-y-2">
+                  {files.map((file) => (
+                    <button
+                      key={file.path}
+                      className={`w-full text-left px-3 py-2 rounded bg-[#44475a] ${activeFile?.path === file.path ? 'border-l-4 border-lime-300' : 'hover:bg-[#4f4f6f]'} transition`}
+                      onClick={() => setActiveFile(file)}
+                    >
+                      {formatTitle(file.name)}
+                    </button>
+                  ))}
+                </div>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <MarkdownContent content={content} frontmatter={frontmatter} />
+                </Suspense>
+              </>
+            )}
           </div>
         </div>
       </main>

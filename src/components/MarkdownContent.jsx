@@ -53,7 +53,7 @@ export default function MarkdownContent({ content, frontmatter }) {
           </details>
         </>
       )}
-      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} allowDangerousHtml>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
         {content}
       </ReactMarkdown>
     </div>

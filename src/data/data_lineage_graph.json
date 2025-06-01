@@ -1,0 +1,353 @@
+{
+  "nodes": [
+    {
+      "id": "node-0",
+      "stage": "Raw",
+      "database": "SAP",
+      "table": "VBAK",
+      "label": "VBAK",
+      "sources": [
+        "VBELN",
+        "MATNR"
+      ],
+      "fields": [
+        "vbak_field_1",
+        "vbak_field_2",
+        "vbak_field_3"
+      ]
+    },
+    {
+      "id": "node-1",
+      "stage": "Raw",
+      "database": "SAP",
+      "table": "VBAP",
+      "label": "VBAP",
+      "sources": [
+        "POSNR",
+        "MATNR"
+      ],
+      "fields": [
+        "vbap_field_1",
+        "vbap_field_2",
+        "vbap_field_3"
+      ]
+    },
+    {
+      "id": "node-2",
+      "stage": "Raw",
+      "database": "Flatfile",
+      "table": "destination_region.csv",
+      "label": "Destination Region",
+      "sources": [
+        "region_code",
+        "region_name"
+      ],
+      "fields": [
+        "destreg_field_1",
+        "destreg_field_2",
+        "destreg_field_3"
+      ]
+    },
+    {
+      "id": "node-3",
+      "stage": "Raw",
+      "database": "Flatfile",
+      "table": "customer_attributes.csv",
+      "label": "Customer Attributes",
+      "sources": [
+        "customer_id",
+        "customer_tier"
+      ],
+      "fields": [
+        "custattr_field_1",
+        "custattr_field_2",
+        "custattr_field_3"
+      ]
+    },
+    {
+      "id": "node-4",
+      "stage": "Cleaned",
+      "database": "Staging",
+      "table": "Sales Orders",
+      "label": "Sales Orders",
+      "sources": [
+        "VBAK",
+        "VBAP",
+        "destination_region.csv"
+      ],
+      "fields": [
+        "sales_orders_field_1",
+        "sales_orders_field_2",
+        "sales_orders_field_3"
+      ]
+    },
+    {
+      "id": "node-5",
+      "stage": "Cleaned",
+      "database": "Staging",
+      "table": "Delivery",
+      "label": "Delivery",
+      "sources": [
+        "VBAK",
+        "destination_region.csv"
+      ],
+      "fields": [
+        "delivery_field_1",
+        "delivery_field_2",
+        "delivery_field_3"
+      ]
+    },
+    {
+      "id": "node-6",
+      "stage": "Cleaned",
+      "database": "Staging",
+      "table": "Inventory",
+      "label": "Inventory",
+      "sources": [
+        "VBAP",
+        "destination_region.csv"
+      ],
+      "fields": [
+        "inventory_field_1",
+        "inventory_field_2",
+        "inventory_field_3"
+      ]
+    },
+    {
+      "id": "node-7",
+      "stage": "Cleaned",
+      "database": "Staging",
+      "table": "Products",
+      "label": "Products",
+      "sources": [
+        "VBAP",
+        "customer_attributes.csv"
+      ],
+      "fields": [
+        "products_field_1",
+        "products_field_2",
+        "products_field_3"
+      ]
+    },
+    {
+      "id": "node-8",
+      "stage": "Cleaned",
+      "database": "Staging",
+      "table": "Customers",
+      "label": "Customers",
+      "sources": [
+        "VBAP",
+        "customer_attributes.csv"
+      ],
+      "fields": [
+        "customers_field_1",
+        "customers_field_2",
+        "customers_field_3"
+      ]
+    },
+    {
+      "id": "node-9",
+      "stage": "Cleaned",
+      "database": "Staging",
+      "table": "Location",
+      "label": "Location",
+      "sources": [
+        "destination_region.csv"
+      ],
+      "fields": [
+        "location_field_1",
+        "location_field_2",
+        "location_field_3"
+      ]
+    },
+    {
+      "id": "node-10",
+      "stage": "Product",
+      "database": "Warehouse",
+      "table": "Fact Sales Orders",
+      "label": "Fact Sales Orders",
+      "sources": [
+        "Sales Orders",
+        "Inventory"
+      ],
+      "fields": [
+        "fact_sales_orders_field_1",
+        "fact_sales_orders_field_2",
+        "fact_sales_orders_field_3"
+      ]
+    },
+    {
+      "id": "node-11",
+      "stage": "Product",
+      "database": "Warehouse",
+      "table": "Dim Customers",
+      "label": "Dim Customers",
+      "sources": [
+        "Customers"
+      ],
+      "fields": [
+        "dim_customers_field_1",
+        "dim_customers_field_2",
+        "dim_customers_field_3"
+      ]
+    },
+    {
+      "id": "node-12",
+      "stage": "Product",
+      "database": "Warehouse",
+      "table": "Dim Location",
+      "label": "Dim Location",
+      "sources": [
+        "Location"
+      ],
+      "fields": [
+        "dim_location_field_1",
+        "dim_location_field_2",
+        "dim_location_field_3"
+      ]
+    },
+    {
+      "id": "node-13",
+      "stage": "Analytics",
+      "database": "AnalyticsDB",
+      "table": "Global Material Margin",
+      "label": "Global Material Margin",
+      "sources": [
+        "Fact Sales Orders"
+      ],
+      "fields": [
+        "global_material_margin_field_1",
+        "global_material_margin_field_2",
+        "global_material_margin_field_3"
+      ]
+    },
+    {
+      "id": "node-14",
+      "stage": "Analytics",
+      "database": "AnalyticsDB",
+      "table": "Sales Order Lanes Report",
+      "label": "Sales Order Lanes Report",
+      "sources": [
+        "Fact Sales Orders",
+        "Dim Customers"
+      ],
+      "fields": [
+        "sales_order_lanes_report_field_1",
+        "sales_order_lanes_report_field_2",
+        "sales_order_lanes_report_field_3"
+      ]
+    },
+    {
+      "id": "node-15",
+      "stage": "Analytics",
+      "database": "AnalyticsDB",
+      "table": "SMOG",
+      "label": "SMOG",
+      "sources": [
+        "Fact Sales Orders"
+      ],
+      "fields": [
+        "smog_field_1",
+        "smog_field_2",
+        "smog_field_3"
+      ]
+    },
+    {
+      "id": "node-16",
+      "stage": "Analytics",
+      "database": "AnalyticsDB",
+      "table": "DOS",
+      "label": "DOS",
+      "sources": [
+        "Fact Sales Orders"
+      ],
+      "fields": [
+        "dos_field_1",
+        "dos_field_2",
+        "dos_field_3"
+      ]
+    },
+    {
+      "id": "node-17",
+      "stage": "Analytics",
+      "database": "AnalyticsDB",
+      "table": "SOTIF",
+      "label": "SOTIF",
+      "sources": [
+        "Fact Sales Orders"
+      ],
+      "fields": [
+        "sotif_field_1",
+        "sotif_field_2",
+        "sotif_field_3"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-node-0-node-8",
+      "source": "node-0",
+      "target": "node-8"
+    },
+    {
+      "id": "e-node-1-node-4",
+      "source": "node-1",
+      "target": "node-4"
+    },
+    {
+      "id": "e-node-2-node-9",
+      "source": "node-2",
+      "target": "node-9"
+    },
+    {
+      "id": "e-node-3-node-8",
+      "source": "node-3",
+      "target": "node-8"
+    },
+    {
+      "id": "e-node-4-node-12",
+      "source": "node-4",
+      "target": "node-12"
+    },
+    {
+      "id": "e-node-5-node-12",
+      "source": "node-5",
+      "target": "node-12"
+    },
+    {
+      "id": "e-node-6-node-10",
+      "source": "node-6",
+      "target": "node-10"
+    },
+    {
+      "id": "e-node-7-node-11",
+      "source": "node-7",
+      "target": "node-11"
+    },
+    {
+      "id": "e-node-8-node-11",
+      "source": "node-8",
+      "target": "node-11"
+    },
+    {
+      "id": "e-node-9-node-10",
+      "source": "node-9",
+      "target": "node-10"
+    },
+    {
+      "id": "e-node-10-node-15",
+      "source": "node-10",
+      "target": "node-15"
+    },
+    {
+      "id": "e-node-11-node-13",
+      "source": "node-11",
+      "target": "node-13"
+    },
+    {
+      "id": "e-node-12-node-13",
+      "source": "node-12",
+      "target": "node-13"
+    }
+  ]
+}
