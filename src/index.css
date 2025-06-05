@@ -73,3 +73,39 @@ details summary::before {
 details[open] summary::before {
   transform: rotate(90deg);
 }
+
+@layer components {
+  .landing-container {
+    @apply fixed inset-0 flex items-center justify-center overflow-hidden;
+    background: var(--dracula-bg);
+    z-index: 1000;
+  }
+  .typing-text::after {
+    content: '|';
+    animation: blink 1s steps(2, start) infinite;
+    margin-left: 2px;
+  }
+
+  /* Pipeline animation initial styles */
+  .node-circle,
+  .node-label,
+  .flow-dot {
+    opacity: 0;
+  }
+  .node-circle,
+  .flow-dot {
+    will-change: transform, opacity;
+  }
+  .node-label {
+    will-change: transform, opacity;
+    transform: translateY(40px);
+  }
+  .pipeline-line {
+    opacity: 0;
+    will-change: stroke-dashoffset, opacity;
+  }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}

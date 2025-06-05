@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import Logo from './Logo'
 import { sections } from '../config/sections'
 
 export default function Sidebar() {
@@ -16,8 +17,8 @@ export default function Sidebar() {
     >
       <div className={`flex flex-col ${minimized ? 'gap-0 items-center' : 'gap-8'}`}>
         {!minimized && (
-          <div className="text-xl font-bold text-lime-300 tracking-wide pl-2 mb-2">
-            {'>'}the{'<'}craft{'>'}lab{'<'}
+          <div className="pl-2 mb-2">
+            <Logo className="text-lime-300" width={32} height={32} />
           </div>
         )}
         <nav className={`flex flex-col ${minimized ? 'gap-3 mt-8' : 'gap-2 w-full'}`}>
